@@ -64,6 +64,101 @@ input[type=color] {
     padding: 0;
 }
 
-#ready {
+.save_area {
+    width: min-content;
+    /* height: 100px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.save_area>div {
+    width: max-content;
+}
+
+.ready {
     display: none;
+}
+
+#save_name {
+    width: 350px;
+    margin: 0;
+}
+
+textarea {
+    width: calc(100vw - 25px);
+    min-width: calc(100vw - 25px);
+    max-width: calc(100vw - 25px);
+    height: calc(100vh - 430px);
+    min-height: calc(100vh - 430px);
+    max-height: calc(100vh - 430px);
+    background-color: var(--color_back);
+    border: solid 1px var(--color_i);
+    color: var(--color_1);
+}
+
+@keyframes changeLetter1 {
+    0% {
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#wait1 {
+    animation: changeLetter1 2s linear infinite reverse;
+}
+
+@keyframes changeLetter2 {
+    0% {
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    55% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#wait2 {
+    animation: changeLetter2 2s linear infinite reverse;
+}
+
+@keyframes changeLetter3 {
+    0% {
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 1;
+    }
+    30% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#wait3 {
+    animation: changeLetter3 2s linear infinite reverse;
 }

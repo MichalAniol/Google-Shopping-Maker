@@ -11,7 +11,7 @@
 
     <body>
         <div class="main_area">
-            <button onclick="loadFile(this)">dodaj plik .xml</button>
+            <button class="" onclick="loadFile(this)">dodaj plik .xml</button>
             <div id="sizes">
                 <label class="container">
                     <input id="size_all" type="checkbox" checked="true" onclick="radio(this)">
@@ -38,10 +38,14 @@
                 <button id="go" onclick="finalize()">STWÓRZ PLIK</button>
             </div>
 
-            <div id="ready">
-                <button onclick="">zapisz plik</button>
+            <div class="ready save_area">
+                <div>nazwa pliku:</div>
+                <input id="save_name" value="export_googleshoppingpl" />
+                <button onclick="SaveTextAsFile()">zapisz plik</button>
             </div>
         </div>
+
+        <textarea id="result" class="ready"></textarea>
 
         <script src="taxonomy-with-ids.pl-PL.js"></script>
         <script src="index.js"></script>
