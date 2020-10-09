@@ -182,7 +182,8 @@ label.section2 {
 #go:disabled:hover {
     background-color: var(--color_4);
 }
+
 #go:disabled:before {
     background-color: #00000000;
     background-image: linear-gradient(to right, #00000000, #00000010, #00000020, #00000000);
-
+}
