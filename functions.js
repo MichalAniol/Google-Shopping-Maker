@@ -61,11 +61,11 @@ const GetElements = (parent, elems) => {
 const GetGoogleNum = name => taxonomy.find(e => e[1] == name);
 
 const GetDescription = prod => {
-    let description = GetInner(prod, ['short_desc'])
+    let description = GetInner(prod, ['iaiext:meta_description'])
     if (description == null) {
-        description = GetInner(prod, ['iaiext:meta_description']);
+        description = GetInner(prod, ['short_desc']);
         if (description == null) {
-            description = GetInner(prod, ['description']);
+            description = GetInner(prod, ['description', 'name']);
         }
     }
 
@@ -74,7 +74,7 @@ const GetDescription = prod => {
 
 
 const Get_google_product_category = prod => {
-    let path = GetValue(prod, ['iaiext:iai_category'], 'path');
+    let path = GetValue(prod, ['category_idosell'], 'path');
     if (!path) return null;
 
 
@@ -152,31 +152,26 @@ const GetPrice = prod => {
         return AddHolders(price + ' PLN');
     }
 
-    price = GetValue(prod, ['iaiext:srp'], 'gross');
+    price = GetValue(prod, ['strikethrough_retail_price'], 'gross');
     if (Number(price) > 0) {
         return AddHolders(price + ' PLN');
     }
 
-    price = GetValue(prod, ['iaiext:strikethrough_retail_price'], 'gross');
-    if (Number(price) > 0) {
-        return AddHolders(price + ' PLN');
-    }
-
-    price = GetValue(prod, ['iaiext:strikethrough_wholesale_price'], 'gross');
+    price = GetValue(prod, ['strikethrough_wholesale_price'], 'gross');
     if (Number(price) > 0) {
         return AddHolders(price + ' PLN');
     }
 }
 
 const GetAvailable = prod => {
-    let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
+    let sizes = GetElements(prod, ['sizes', 'size'])
     let res = '';
     let list = [];
     if (sizes) {
         for (let i = 0; i < sizes.length; i++) {
             let s = sizes[i];
             let available = s.getAttribute('available');
-            if (available != 'unavailable') return AddHolders(available.replace('_', ' '))
+            if (available && available != 'unavailable') return AddHolders(available.replace('_', ' '))
         }
     }
 
@@ -184,12 +179,12 @@ const GetAvailable = prod => {
 }
 
 const GetSizes = (prod, size_all) => {
-    let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
+    let sizes = GetElements(prod, ['sizes', 'size'])
     let res = '';
     let list = [];
     for (let i = 0; i < sizes.length; i++) {
         let s = sizes[i];
-        let name = s.getAttribute('size_name');
+        let name = s.getAttribute('name');
         if (!size_all) {
             let available = s.getAttribute('available') != 'unavailable';
             if (!available) continue;
@@ -206,7 +201,7 @@ const GetSizes = (prod, size_all) => {
 }
 
 const GetWeight = prod => {
-    let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
+    let sizes = GetElements(prod, ['sizes', 'size'])
     let res = 0;
     let num = 0;
     for (let i = 0; i < sizes.length; i++) {

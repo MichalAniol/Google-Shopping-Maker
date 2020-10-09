@@ -164,23 +164,23 @@ const finalize = () => {
     let condition = document.querySelector('#condition').value;
 
     let button = document.querySelector('#go');
-    button.innerHTML = '';
+    // button.innerHTML = '';
 
-    let node = document.createElement("SPAN");
-    node.innerHTML = 'czekaj';
-    button.append(node);
-    let node1 = document.createElement("SPAN");
-    node1.innerHTML = '.';
-    node1.id = 'wait1'
-    button.append(node1);
-    let node2 = document.createElement("SPAN");
-    node2.innerHTML = '.';
-    node2.id = 'wait2'
-    button.append(node2);
-    let node3 = document.createElement("SPAN");
-    node3.innerHTML = '.';
-    node3.id = 'wait3'
-    button.append(node3);
+    // let node = document.createElement("SPAN");
+    // node.innerHTML = 'czekaj';
+    // button.append(node);
+    // let node1 = document.createElement("SPAN");
+    // node1.innerHTML = '.';
+    // node1.id = 'wait1'
+    // button.append(node1);
+    // let node2 = document.createElement("SPAN");
+    // node2.innerHTML = '.';
+    // node2.id = 'wait2'
+    // button.append(node2);
+    // let node3 = document.createElement("SPAN");
+    // node3.innerHTML = '.';
+    // node3.id = 'wait3'
+    // button.append(node3);
 
 
     let products, num, index, ready, interval;
@@ -191,10 +191,10 @@ const finalize = () => {
         index = 0;
         ready = false;
 
-        button.removeChild(node);
-        button.removeChild(node1);
-        button.removeChild(node2);
-        button.removeChild(node3);
+        // button.removeChild(node);
+        // button.removeChild(node1);
+        // button.removeChild(node2);
+        // button.removeChild(node3);
 
         interval = setInterval(() => {
             if (index >= products.length) {
@@ -217,7 +217,7 @@ const finalize = () => {
             }
 
             let newItem = {
-                id: AddHolders(GetValue(prod, ['iaiext:size'], 'code')),
+                id: AddHolders(GetValue(prod, ['sizes', 'size'], 'code')),
                 title: GetInner(prod, ['description', 'name']),
                 description: GetDescription(prod),
                 google_product_category: Get_google_product_category(prod),
@@ -248,14 +248,19 @@ const finalize = () => {
             }
 
             AddTooXml(newItem);
+            // console.log('%c newItem:', 'background: #ffcc00; color: #003300', newItem)
             button.innerHTML = '' + (index) + ' z ' + products.length;
         }, 0,
             index, data, products, num, size_all, shipping_price, condition, ready, button, xmlResult);
     }, 30,
-        xmlResult, size_all, shipping_price, condition, button, products, num, index, ready, interval, node, node1, node2, node3);
+        xmlResult, size_all, shipping_price, condition, button, products, num, index, ready, interval
+        // , node, node1, node2, node3
+        );
 
     let intervalEnd = setInterval(() => {
         if (ready) {
+
+
             clearInterval(intervalEnd)
             button.innerHTML = 'Dodano ' + num + ' produktow !!!';
 
