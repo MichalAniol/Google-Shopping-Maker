@@ -234,3 +234,31 @@ const GetWeight = prod => {
     return AddHolders(res)
 }
 
+
+{
+    let styles = [
+        'width: 250px',
+        'color: white',
+        'display: block',
+        'font-size: 30px',
+        'text-align: center',
+        'margin: 10px 0 0',
+    ].join(';');
+    let styles2 = [
+        'background: linear-gradient(#1f3047, #4D7AB3)',
+        'border: 1px solid #3E0E02',
+        'width: 250px',
+        'color: white',
+        'display: block',
+        'background: rgb(10,1,157)',
+        'background: linear-gradient(166deg, rgba(10,1,157,1) 0%, rgba(11,117,14,1) 40%, rgba(11,121,9,1) 60%, rgba(0,212,255,1) 100%)',
+        'line-height: 18px',
+        'text-align: center',
+        'font-weight: bold',
+        'font-size: 14px',
+        'margin: 0 0 18px',
+        'padding: 10px 0 15px 0'
+    ].join(';');
+
+    console.log('%c💲💲🏆💲💲%c💥Google Shopping Maker💥\n👉all rights reserved👈', styles, styles2);
+}
