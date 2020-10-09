@@ -10,21 +10,35 @@
 
     <body>
         <div class="main_area">
-            <button onclick="loadFile()">dodaj plik .xml</button>
-            <div>
-                
-                <span>wszystkie rozmiry</span>
+            <button onclick="loadFile(this)">dodaj plik .xml</button>
+            <div id="sizes">
+                <label class="container">
+                    <input id="size_all" type="checkbox" checked="true" onclick="radio(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <span class="radio">wszystkie rozmiry</span>
+                <div class="separator"></div>
+                <label class="container">
+                    <input id="size_aval" type="checkbox" onclick="radio(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <span class="radio">tylko dostepne rozmiry</span>
             </div>
             <div>
-                <span>tylko dostepne rozmiry</span>
-            </div>
-            <div>
-                <input />
+                <input value="14.99 PLN" />
                 <span>cena dostawy</span>
             </div>
             <div>
-                <input />
-                <span>stn produktu</span>
+                <input value="new" />
+                <span>satn produktu</span>
+            </div>
+
+            <div>
+                <button id="go" onclick="finalize()">STWÓRZ PLIK</button>
+            </div>
+
+            <div id="ready">
+                <button onclick="">zapisz plik</button>
             </div>
         </div>
 
