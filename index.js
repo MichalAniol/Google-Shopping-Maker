@@ -11,9 +11,6 @@ const stater = () => {
     document.querySelector('#go').disabled = true;
 }
 stater();
-// console.log('%c taxonomy:', 'background: #ffcc00; color: #003300', taxonomy)
-// console.log('%c taxonomy:', 'background: #ffcc00; color: #003300', taxonomy[0][1])
-
 
 //----------------------
 
@@ -41,7 +38,6 @@ function destroyClickedElement(event) {
 
 var data = [];
 var xmlStr = null;
-// Button callback
 async function loadFile(item) {
 
     let files = await selectFile("text/*", true);
@@ -90,7 +86,6 @@ async function loadFile(item) {
     fileReader.readAsText(fileToLoad);
 }
 
-
 // ---- function definition ----
 function selectFile(contentType, multiple) {
     return new Promise(resolve => {
@@ -111,7 +106,6 @@ function selectFile(contentType, multiple) {
     });
 }
 
-
 function radio(item) {
     let elem = document.querySelectorAll('#' + item.parentElement.parentElement.id + ' input');
     for (let e of elem) {
@@ -119,7 +113,6 @@ function radio(item) {
     }
     item.checked = true;
 }
-
 
 var xmlResult = '';
 const AddTooXml = item => {
@@ -162,7 +155,6 @@ const AddTooXml = item => {
         <adwords_grouping>`+ item.adwords_grouping + `</adwords_grouping>
       </item>\n`;
 }
-
 
 const finalize = () => {
     xmlResult = '<?xml version="1.0" encoding="UTF-8"?>\n  <rss xmlns:g="http://base.google.com/ns/1.0" xmlns:iaiext="http://www.iai-shop.com/developers/iof/extensions.phtml" xmlns:functx="http://www.functx.com" version="2.0">\n    <channel>\n';
@@ -261,7 +253,6 @@ const finalize = () => {
             index, data, products, num, size_all, shipping_price, condition, ready, button, xmlResult);
     }, 30,
         xmlResult, size_all, shipping_price, condition, button, products, num, index, ready, interval, node, node1, node2, node3);
-
 
     let intervalEnd = setInterval(() => {
         if (ready) {

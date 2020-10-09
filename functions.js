@@ -234,7 +234,6 @@ const GetWeight = prod => {
     return AddHolders(res)
 }
 
-
 {
     let styles = [
         'width: 250px',
