@@ -11,6 +11,7 @@
     --color_1: #006600;
     --color_2: #003a00;
     --color_3: #000800;
+    --color_4: #003000;
     --color_back: black;
     --color_i: #1d1d1d;
     --font: 'Rubik', sans-serif
@@ -169,6 +170,19 @@ label.section2 {
     animation-iteration-count: infinite;
 }
 
+#go:disabled {
+    background-color: var(--color_4);
+    cursor: auto;
+}
+
 #go:hover {
     background-color: var(--color_0);
 }
+
+#go:disabled:hover {
+    background-color: var(--color_4);
+}
+#go:disabled:before {
+    background-color: #00000000;
+    background-image: linear-gradient(to right, #00000000, #00000010, #00000020, #00000000);
+
