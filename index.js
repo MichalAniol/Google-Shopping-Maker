@@ -121,178 +121,191 @@ function radio(item) {
     item.checked = true;
 }
 
+const ClearHolders = txt => txt.replace('<![', '![').replace(']]>', ']]')
+const AddHolders = txt => '<![CDATA[' + txt + ']]>';
+
+const GetValue = (parent, elems, value) => {
+    let item = parent;
+    for (let i = 0; i < elems.length; i++) {
+        let elem = elems[i];
+
+        if (i + 1 == elems.length) {
+            let res = item.getElementsByTagName(elem)[0].getAttribute(value);
+            return res;
+        } else {
+            item = item.getElementsByTagName(elem)[0];
+            if (item == null || typeof item == 'undefined') return null;
+        }
+    }
+}
+
+
+const GetInner = (parent, elems) => {
+    let item = parent;
+    for (let i = 0; i < elems.length; i++) {
+        let elem = elems[i];
+
+        if (i + 1 == elems.length) {
+            let res = item.getElementsByTagName(elem)[0].innerHTML;
+            return res;
+        } else {
+            item = item.getElementsByTagName(elem)[0];
+            if (item == null || typeof item == 'undefined') return null;
+        }
+    }
+}
+
+const GetElements = (parent, elems) => {
+    let item = parent;
+    for (let i = 0; i < elems.length; i++) {
+        let elem = elems[i];
+
+        if (i + 1 == elems.length) {
+            let res = item.getElementsByTagName(elem);
+            return res;
+        } else {
+            item = item.getElementsByTagName(elem)[0];
+            if (item == null || typeof item == 'undefined') return null;
+        }
+    }
+}
+
+
+const GetGoogleNum = name => taxonomy.find(e => e[1] == name);
+
+
+const Get_google_product_category = prod => {
+    let path = GetValue(prod, ['iaiext:iai_category'], 'path');
+    let item = GetGoogleNum(path);
+    let google_num = item[0];
+    return AddHolders(google_num)
+}
+
+const GetNavigation = prod => {
+    let navigation = GetElements(prod, ['iaiext:navigation', 'iaiext:item']);
+    let res = [];
+    for (let item of navigation) {
+        let name = item.getAttribute('textid');
+        res.push(AddHolders(name));
+    }
+    return res;
+}
+
+
+const GetPrice = prod => {
+    let price = GetValue(prod, ['price'], 'gross');
+    if (Number(price) > 0) {
+        return AddHolders(price + ' PLN');
+    }
+
+    price = GetValue(prod, ['srp'], 'gross');
+    if (Number(price) > 0) {
+        return AddHolders(price + ' PLN');
+    }
+
+    price = GetValue(prod, ['iaiext:srp'], 'gross');
+    if (Number(price) > 0) {
+        return AddHolders(price + ' PLN');
+    }
+
+    price = GetValue(prod, ['iaiext:strikethrough_retail_price'], 'gross');
+    if (Number(price) > 0) {
+        return AddHolders(price + ' PLN');
+    }
+
+    price = GetValue(prod, ['iaiext:strikethrough_wholesale_price'], 'gross');
+    if (Number(price) > 0) {
+        return AddHolders(price + ' PLN');
+    }
+}
+
+const GetAvailable = prod => {
+    let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
+    let res = '';
+    let list = [];
+    for (let i = 0; i < sizes.length; i++) {
+        let s = sizes[i];
+        let available = s.getAttribute('available');
+        if (available != 'unavailable') return AddHolders(available.replace('_', ' '))
+    }
+
+
+    return null;
+}
+
+const GetSizes = (prod, size_all) => {
+    let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
+    let res = '';
+    let list = [];
+    for (let i = 0; i < sizes.length; i++) {
+        let s = sizes[i];
+        let name = s.getAttribute('size_name');
+        if (!size_all) {
+            let available = s.getAttribute('available') != 'unavailable';
+            if (!available) continue;
+        }
+        list.push(name);
+    }
+
+    for (let i = 0; i < list.length; i++) {
+        let name = list[i];
+        res += name + (i < list.length - 1 ? ', ' : '');
+    }
+
+    return AddHolders(res)
+}
+
+const GetWeight = prod => {
+    let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
+    let res = 0;
+    let num = 0;
+    for (let i = 0; i < sizes.length; i++) {
+        let s = sizes[i];
+        let weight = Number(s.getAttribute('weight'));
+        let available = s.getAttribute('available') != 'unavailable';
+        if (!available) continue;
+        res += weight;
+        num++;
+    }
+    res = (res / num).toString();
+
+    return AddHolders(res)
+}
+
+
 const finalize = () => {
     let size_all = document.querySelector('#size_all').checked;
-    let size_aval = document.querySelector('#size_aval').checked;
+    let shipping_price = document.querySelector('#shipping_price').value;
+    let condition = document.querySelector('#condition').value;
 
 
-
-    const ClearHolders = txt => txt.replace('<![', '![').replace(']]>', ']]')
-    const AddHolders = txt => '<![CDATA[' + txt + ']]>';
-
-    const GetValue = (parent, elems, value) => {
-        let item = parent;
-        for (let i = 0; i < elems.length; i++) {
-            let elem = elems[i];
-
-            if (i + 1 == elems.length) {
-                let res = item.getElementsByTagName(elem)[0].getAttribute(value);
-                return res;
-            } else {
-                item = item.getElementsByTagName(elem)[0];
-                if (item == null || typeof item == 'undefined') return null;
-            }
-        }
-    }
-
-
-    const GetInner = (parent, elems) => {
-        let item = parent;
-        for (let i = 0; i < elems.length; i++) {
-            let elem = elems[i];
-
-            if (i + 1 == elems.length) {
-                let res = item.getElementsByTagName(elem)[0].innerHTML;
-                return res;
-            } else {
-                item = item.getElementsByTagName(elem)[0];
-                if (item == null || typeof item == 'undefined') return null;
-            }
-        }
-    }
-
-    const GetElements = (parent, elems) => {
-        let item = parent;
-        for (let i = 0; i < elems.length; i++) {
-            let elem = elems[i];
-
-            if (i + 1 == elems.length) {
-                let res = item.getElementsByTagName(elem);
-                return res;
-            } else {
-                item = item.getElementsByTagName(elem)[0];
-                if (item == null || typeof item == 'undefined') return null;
-            }
-        }
-    }
-
-
-    const GetGoogleNum = name => taxonomy.find(e => e[1] == name);
-
-
-    const Get_google_product_category = prod => {
-        let path = GetValue(prod, ['iaiext:iai_category'], 'path');
-        let item = GetGoogleNum(path);
-        let google_num = item[0];
-        return AddHolders(google_num)
-    }
-
-    const GetNavigation = prod => {
-        let navigation = GetElements(prod, ['iaiext:navigation', 'iaiext:item']);
-        console.log('%c navigation:', 'background: #ffcc00; color: #003300', navigation)
-        let res = [];
-        for (let item of navigation) {
-            let name = item.getAttribute('textid');
-            res.push(AddHolders(name));
-        }
-        return res;
-    }
-
-
-    const GetPrice = prod => {
-        let price = GetValue(prod, ['price'], 'gross');
-        if (Number(price) > 0) {
-            return AddHolders(price + ' PLN');
-        }
-
-        price = GetValue(prod, ['srp'], 'gross');
-        if (Number(price) > 0) {
-            return AddHolders(price + ' PLN');
-        }
-
-        price = GetValue(prod, ['iaiext:srp'], 'gross');
-        if (Number(price) > 0) {
-            return AddHolders(price + ' PLN');
-        }
-
-        price = GetValue(prod, ['iaiext:strikethrough_retail_price'], 'gross');
-        if (Number(price) > 0) {
-            return AddHolders(price + ' PLN');
-        }
-
-        price = GetValue(prod, ['iaiext:strikethrough_wholesale_price'], 'gross');
-        if (Number(price) > 0) {
-            return AddHolders(price + ' PLN');
-        }
-    }
-
-    const GetAvailable = prod => {
-        let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
-        let res = '';
-        let list = [];
-        for (let i = 0; i < sizes.length; i++) {
-            let s = sizes[i];
-            let available = s.getAttribute('available');
-            if (available != 'unavailable') return AddHolders(available.replace('_', ' '))
-        }
-
-
-        return null;
-    }
-
-    const GetSizes = prod => {
-        let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
-        let res = '';
-        let list = [];
-        for (let i = 0; i < sizes.length; i++) {
-            let s = sizes[i];
-            let name = s.getAttribute('size_name');
-            let available = s.getAttribute('available') != 'unavailable';
-            if (!available) continue;
-            list.push(name);
-        }
-
-        for (let i = 0; i < list.length; i++) {
-            let name = list[i];
-            res += name + (i < list.length - 1 ? ', ' : '');
-        }
-
-        return AddHolders(res)
-    }
-
-    const GetWeight = prod => {
-        let sizes = GetElements(prod, ['iaiext:sizes', 'iaiext:size'])
-        let res = 0;
-        let num = 0;
-        for (let i = 0; i < sizes.length; i++) {
-            let s = sizes[i];
-            let weight = Number(s.getAttribute('weight'));
-            let available = s.getAttribute('available') != 'unavailable';
-            if (!available) continue;
-            res += weight;
-            num++;
-        }
-        res = (res / num).toString();
-
-        return AddHolders(res)
-    }
 
     let products = xmlStr.getElementsByTagName("product");
     console.log('%c products:', 'background: #ffcc00; color: #003300', products.length)
     data = [];
     let num = 0;
 
+    let index = 0;
+    let ready = false;
+    let interval = setInterval(() => {
+        if (index >= products.length) {
+            // end
+            clearInterval(interval);
+            ready = true;
+            console.log('%c ready:', 'background: red; color: #003300', ready)
+            return;
+        }
+        prod = products[index];
+        index++;
 
-    for (let prod of products) {
         let visible = GetValue(prod, ['iaiext:visibility', 'iaiext:site'], 'visible') == 'yes';
         let availability = GetValue(prod, ['iaiext:availability', 'iaiext:site'], 'value') == 'yes';
 
-        if (visible && availability) {
-            num++
-        } else {
-            continue
-        }
-        console.log('%c id:', 'background: #ffcc00; color: #003300', num)
+        // if (visible && availability) {
+        //     num++f
+        // } else {
+        //     return
+        // }
 
         let newItem = {
             id: AddHolders(GetValue(prod, ['iaiext:size'], 'code')),
@@ -302,15 +315,15 @@ const finalize = () => {
             product_type: GetNavigation(prod),
             link: AddHolders(GetValue(prod, ['card'], 'url')),
             image_link: AddHolders(GetValue(prod, ['iaiext:icons', 'iaiext:auction_icon'], 'url')),
-            condition: '<![CDATA[new]]>',
+            condition: '<![CDATA[' + condition + ']]>',
             availability: GetAvailable(prod),
             price: GetPrice(prod),
             // gtin: null,
             // mpn: null,
             brand: AddHolders(GetValue(prod, ['producer'], 'producer')),
-            size: GetSizes(prod),
+            size: GetSizes(prod, size_all),
             item_group_id: AddHolders(prod.getAttribute('id')),
-            shipping_price: '<![CDATA[14.99 PLN]]>',
+            shipping_price: '<![CDATA[' + shipping_price + ']]>',
             shipping_weight: GetWeight(prod),
             adwords_grouping: AddHolders(GetValue(prod, ['category'], 'name'))
         }
@@ -325,10 +338,20 @@ const finalize = () => {
         data.push(newItem)
 
 
+    }, 100,
+        index, data, products, num, size_all, shipping_price, condition, ready);
 
-    }
 
-    console.log('%c added items:', 'background: red; color: #003300', num)
-    console.log('%c data:', 'background: #ffcc00; color: #003300', data)
+    let intervalEnd = setInterval(() => {
+        if (ready) {
+            console.log('%c ready:', 'background: blue; color: #003300', ready)
+            console.log('%c added items:', 'background: red; color: #003300', num)
+            console.log('%c data:', 'background: #ffcc00; color: #003300', data)
+            // console.log('%c sizes:', 'background: #ffcc00; color: #003300', data[3].size)
+            clearInterval(intervalEnd)
+        } else {
+
+        }
+    }, 1000, ready);
 
 }
