@@ -161,6 +161,8 @@ const GetPrice = prod => {
     if (Number(price) > 0) {
         return AddHolders(price + ' PLN');
     }
+
+    return '0.00 PLN'
 }
 
 const GetAvailable = prod => {
@@ -197,6 +199,7 @@ const GetSizes = (prod, size_all) => {
         res += name + (i < list.length - 1 ? ', ' : '');
     }
 
+    if (res == '') res = '-';
     return AddHolders(res)
 }
 
