@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Google Shopping Maker</title>
+        <link rel='stylesheet' type='text/css' href='stuf.css'>
+        <link rel='stylesheet' type='text/css' href='index.css'>
+    </head>
+
+    <body>
+        <div class="main_area description">
+            &lt;&gt; - nazwa google shopping,<br>() - nazwa zmienej w programie,<br>'' - nazwa w pliku backup .xml<br>"" - nazwa z inputow w html<br>__ - dane z pików .js w programie<br>&nbsp;<br>------------------------------------------------------------<br>------------------------------------------------------------<br>&nbsp;<br>&lt;item&gt; zostaje dodany gdy (visible && availability && availability_size)<br>- visible - z 'iaiext:visibility', 'iaiext:site', 'visible' == 'yes',<br>- availability - z 'iaiext:availability', 'iaiext:site', 'value' == 'yes',<br>- availability_size - z 'sizes', 'size', 'available' żaden != 'unavailable'<br>&nbsp;<br>------------------------------------------------------------<br>&nbsp;<br>&lt;g:id&gt; (id)<br>- z 'sizes', 'size', 'code<br>&nbsp;<br>&lt;title&gt; (title)<br>- z 'description', 'name'<br>&nbsp;<br>&lt;description&gt; (description)<br>- z 'iaiext:meta_description', jeśli brak:<br>- z 'short_desc', jeśli brak:<br>- z 'description', 'name'<br>&nbsp;<br>&lt;g:google_product_category&gt; (google_product_category)<br>- dodawany jesli katetegoria zostala znaleziona w _taxonomy_<br>- jesli nie szuka krótrzej kategorii<br>- jesli nie znajdzie pomija wartość<br>&nbsp;<br>&lt;g:product_type&gt; (product_type)<br>- z 'iaiext:navigation', 'iaiext:item', 'textid'<br>- wylicza wszystkie dostepne scieżki<br>&nbsp;<br>&lt;link&gt; (link)<br>- z 'card', 'url'<br>&nbsp;<br>&lt;g:display_ads_link&gt;<br>- z 'card', 'url'<br>&nbsp;<br>&lt;g:image_link&gt; (image_link)<br>- z 'iaiext:icons', 'iaiext:auction_icon', 'url', jesli brak to:<br>- z 'images', 'large', 'url'<br>- jeśli brak warośc zostaje pominięta<br>&nbsp;<br>&lt;g:condition&gt; (condition)<br>- pobierane z inputu "satn produktu"<br>&nbsp;<br>&lt;g:availability&gt; (availability)<br>- z 'sizes', 'size', 'available'<br>&nbsp;<br>&lt;g:price&gt; (price)<br>- z 'price', 'gross' jeśli &gt; 0<br>- z 'srp', 'gross' jeśli &gt; 0<br>- z 'strikethrough_retail_price', 'gross' jeśli &gt; 0<br>- z 'strikethrough_wholesale_price', 'gross' jeśli &gt; 0<br>- jeśli wszystkie na zero zwraca '0.00 PLN'<br>&nbsp;<br>&lt;g:gtin&gt; (gtin)<br>- z 'iaiext:sizes', 'iaiext:size', 'code_producer'<br>- jesli ''iaiext:producer_code_standard' != 'OTHER', czyli rodzaj kodu jest znany<br>&nbsp;<br>&lt;g:mpn&gt; (mpn)<br>- z 'iaiext:sizes', 'iaiext:size', 'code_producer'<br>- jesli ''iaiext:producer_code_standard' == 'OTHER'<br>&nbsp;<br>&lt;g:brand&gt; (brand)<br>- z 'producer', 'name'<br>&nbsp;<br>&lt;g:size&gt; {size}<br>- jesli brak roziarow zwraca '-'<br>- jeśli są rozmiary to albo zwraca "wszystkie rozmiry" albo "tylko dostepne rozmiry" w zależności od wybranego boxa, przecinki zamieniane sa na kropki<br>&nbsp;<br>&lt;g:item_group_id&gt; (item_group_id)<br>- z 'id'<br>&nbsp;<br>&lt;g:shipping&gt; &lt;g:price&gt; (shipping_price)<br>- pobierane z inputu: "cena dostawy"<br>&nbsp;<br>&lt;g:shipping_weight&gt; (shipping_weight)<br>- podaje wagę z 'sizes', 'size', 'weight',<br>- jeśli 'available' != 'unavailable',<br>- zlicza srednią wagę z dostępnych rozmiarów,<br>- jeśli brak dostępnych bierze pierwsza wagę z niedostepnego,<br>- jesli brak wag zwraca '0 g'<br>&nbsp;<br>&lt;adwords_grouping&gt; (adwords_grouping)<br>- z 'category', 'name'
+        </div>
+
+        <a class="documentation" href="index.html">
+            <button>&lt;&lt;&lt; powrót</button>
+        </a>
+
+    </body>
+
+</html>

@@ -162,3 +162,18 @@ textarea {
 #wait3 {
     animation: changeLetter3 2s linear infinite reverse;
 }
+
+.documentation {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+.documentation button {
+    font-size: 20px;
+    width: max-content;
+}
+
+.description {
+    padding: 10px 40px;
+    border: solid 1px var(--color_i);
+}
