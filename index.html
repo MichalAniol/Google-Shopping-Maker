@@ -5,8 +5,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Google Shopping Maker</title>
-        <link rel='stylesheet' type='text/css' href='stuf.css'>
         <link rel='stylesheet' type='text/css' href='index.css'>
+        <link rel='stylesheet' type='text/css' href='stuf.css'>
     </head>
 
     <body>
@@ -17,21 +17,37 @@
                     <input id="size_all" type="checkbox" checked="true" onclick="radio(this)">
                     <span class="checkmark"></span>
                 </label>
-                <span class="radio">wszystkie rozmiry</span>
+                <span class="radio tooltip">wszystkie rozmiry
+                    <span class="tooltiptext">
+                        przy wyborze tej opcji<br>wszystkie rozmiary w jakich<br>wystepują produkty zostana<br>dodane do pliku
+                    </span>
+                </span>
                 <div class="separator"></div>
                 <label class="container">
                     <input id="size_aval" type="checkbox" onclick="radio(this)">
                     <span class="checkmark"></span>
                 </label>
-                <span class="radio">tylko dostepne rozmiry</span>
+                <span class="radio tooltip">tylko dostepne rozmiry
+                    <span class="tooltiptext">
+                        przy wyborze tej opcji<br>tylko rozmiary dostepne<br>w tej chwili w sklepie<br>zostana dodane do pliku
+                    </span>
+                </span>
             </div>
             <div>
                 <input id="shipping_price" value="14.99 PLN" />
-                <span>cena dostawy</span>
+                <span class="tooltip">cena dostawy
+                    <span class="tooltiptext">
+                      wardoś dopisywana do wszystkich<br>produktów w piku
+                    </span>
+                </span>
             </div>
             <div>
                 <input id="condition" value="new" />
-                <span>satn produktu</span>
+                <span class="tooltip">satn produktu
+                    <span class="tooltiptext">
+                        wardoś dopisywana do wszystkich<br>produktów w piku
+                    </span>
+                </span>
             </div>
 
             <div>

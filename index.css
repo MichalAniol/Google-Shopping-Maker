@@ -1,3 +1,32 @@
+@font-face {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    src: url('font/Rubik-Regular.eot');
+    src: local('open sans extralight'), local('open-sans-extralight'), url('font/Rubik-Regular.eot?#iefix') format('embedded-opentype'), url('font/Rubik-Regular.woff2') format('woff2'), url('font/Rubik-Regular.woff') format('woff'), url('font/Rubik-Regular.ttf') format('truetype'), url('font/Rubik-Regular.svg#Barlow') format('svg');
+}
+
+:root {
+    --color_0: #15b815;
+    --color_1: #006600;
+    --color_2: #003a00;
+    --color_3: #000800;
+    --color_4: #003000;
+    --color_back: black;
+    --color_i: #1d1d1d;
+    --color_i2: #444444;
+    --font: 'Rubik', sans-serif
+}
+
+body {
+    margin: 10px;
+    padding: 0;
+    background-color: var(--color_back);
+    color: var(--color_1);
+    font-family: var(--font);
+    font-size: 20px;
+}
+
 .main_area {
     width: min-content;
     /* height: 100px; */
@@ -11,6 +40,10 @@
 .main_area>div {
     margin-top: 10px;
     width: max-content;
+}
+
+.main_area span {
+    cursor: default;
 }
 
 button {
@@ -168,6 +201,7 @@ textarea {
     left: 20px;
     top: 20px;
 }
+
 .documentation button {
     font-size: 20px;
     width: max-content;
@@ -177,3 +211,47 @@ textarea {
     padding: 10px 40px;
     border: solid 1px var(--color_i);
 }
+
+/* Tooltip container */
+
+.tool_wrap {
+    display: inherit;
+    position: relative;
+    width: 0;
+    height: 0;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    /* width: 120px; */
+    background-color: var(--color_i);
+    color: var(--color_1);
+    text-align: center;
+    padding: 3px 5px;
+    border-radius: 6px;
+    white-space: nowrap;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    margin: -3px 10px;
+    border: solid 1px var(--color_i2);
+    z-index: 1;
+    -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
