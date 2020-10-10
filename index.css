@@ -210,6 +210,7 @@ textarea {
 .description {
     padding: 10px 40px;
     border: solid 1px var(--color_i);
+    width: 60vw;
 }
 
 /* Tooltip container */
