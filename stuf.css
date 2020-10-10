@@ -10,6 +10,7 @@
     user-select: none;
     left: -16px;
     top: 11px;
+    cursor: pointer;
 }
 
 label.section {

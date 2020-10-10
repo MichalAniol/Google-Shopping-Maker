@@ -42,7 +42,7 @@ body {
     width: max-content;
 }
 
-.main_area span {
+.main_area div>span {
     cursor: default;
 }
 
@@ -254,4 +254,3 @@ textarea {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
-
