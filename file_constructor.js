@@ -274,6 +274,7 @@ const AddTooXml = item => {
       </item>\n`;
 }
 
+
 const finalize = () => {
     xmlResult = '<?xml version="1.0" encoding="UTF-8"?>\n  <rss xmlns:g="http://base.google.com/ns/1.0" xmlns:iaiext="http://www.iai-shop.com/developers/iof/extensions.phtml" xmlns:functx="http://www.functx.com" version="2.0">\n    <channel>\n';
 
@@ -284,6 +285,9 @@ const finalize = () => {
     let button = document.querySelector('#go');
 
     let products, num, index, ready, interval;
+
+    let itemsNum = StartTesting();
+
     setTimeout(() => {
         products = xmlStr.getElementsByTagName("product");
         num = 0;
@@ -343,12 +347,12 @@ const finalize = () => {
             }
 
             AddTooXml(newItem);
+            CountItems(itemsNum, newItem);
             button.innerHTML = '' + (index) + ' z ' + products.length;
         }, 0,
-            index, data, products, num, size_all, shipping_price, condition, ready, button, xmlResult);
+            index, data, products, num, size_all, shipping_price, condition, ready, button, xmlResult, itemsNum);
     }, 30,
-        xmlResult, size_all, shipping_price, condition, button, products, num, index, ready, interval
-        );
+        xmlResult, size_all, shipping_price, condition, button, products, num, index, ready, interval, itemsNum);
 
     let intervalEnd = setInterval(() => {
         if (ready) {
@@ -359,8 +363,10 @@ const finalize = () => {
             document.querySelector('#result').style.display = 'initial';
 
             document.querySelector('#result').value = xmlResult;
+
+            ShowTest(itemsNum)
         } else {
 
         }
-    }, 300, ready, button, xmlResult);
+    }, 300, ready, button, xmlResult, itemsNum);
 }
