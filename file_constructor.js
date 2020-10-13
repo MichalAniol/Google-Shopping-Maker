@@ -364,9 +364,9 @@ const finalize = () => {
 
             document.querySelector('#result').value = xmlResult;
 
-            ShowTest(itemsNum)
+            ShowTest(itemsNum, num)
         } else {
 
         }
-    }, 300, ready, button, xmlResult, itemsNum);
+    }, 300, ready, button, xmlResult, itemsNum, num);
 }

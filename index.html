@@ -37,7 +37,7 @@
                 <input id="shipping_price" value="14.99 PLN" />
                 <span class="tooltip">cena dostawy
                     <span class="tooltiptext">
-                      wardoś dopisywana do wszystkich<br>produktów w piku
+                        wardoś dopisywana do wszystkich<br>produktów w piku
                     </span>
                 </span>
             </div>
@@ -66,6 +66,34 @@
         </a>
 
         <textarea id="result" class="ready"></textarea>
+
+        <div class="popup_wrap">
+            <div class="popup_container">
+                <div class="popup">
+                    <div class="title">analiza doadanych danych</div>
+                    <div class="values">
+                        <table>
+                            <col>
+                            <col>
+                            <col>
+
+                            <tr>
+                                <th>&lt;item&gt;</th>
+                                <th>liczba</th>
+                                <th>stan</th>
+                            </tr>
+                            <tr id="test_id">
+                                <th>&lt;item&gt;</th>
+                                <th>0</th>
+                                <th>OK</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <button onclick="CloseTestWindow()"> zamknij</button>
+                </div>
+            </div>
+        </div>
+
 
         <script src="taxonomy-with-ids.pl-PL.js"></script>
         <script src="test.js"></script>

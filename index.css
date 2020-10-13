@@ -255,3 +255,88 @@ textarea {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+.popup_wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    z-index: 1;
+    display: none;
+}
+
+.popup_container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+}
+
+.popup {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--color_1);
+    padding: 3px;
+    background-color: var(--color_3);
+    -webkit-box-shadow: 0px 0px 94px 76px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 94px 76px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 94px 76px rgba(0, 0, 0, 0.75);
+    color: var(--color_0);
+}
+
+.popup>.title {
+    background-color: var(--color_1);
+    color: var(--color_3);
+    font-size: 30px;
+    padding: 0 30px;
+    text-align: center;
+}
+
+.popup>.values {
+    border: 1px solid silver;
+    margin: 10px auto 10px auto;
+    display: table;
+}
+
+.popup>.values col:first-child {
+    background: var(--color_0);
+}
+
+.popup>.values col:nth-child(2n+3) {
+    background: var(--color_0);
+    color: #000
+}
+
+.popup>.values th {
+    padding: 0 15px;
+    font-size: 24px;
+    border-bottom: 4px solid var(--color_3);
+}
+
+.popup>.values td {
+    text-align: center;
+    padding: 0 15px;
+}
+
+.popup .error {
+    background-color: red;
+}
+
+.popup .blackText {
+    color: #000;
+}
+
+.popup button {
+    position: relative;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+    font-size: 18px;
+    padding: 5px 30px;
+    width: max-content;
+}
