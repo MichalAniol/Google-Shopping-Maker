@@ -121,10 +121,7 @@ const ShowTest = (list, allNum = 0) => {
     }
 }
 
-// ShowTest(StartTesting())
-
 const CloseTestWindow = () => {
     let popup_wrap = document.querySelector('.popup_wrap');
     popup_wrap.style.display = 'none';
-    console.log('%c popup_wrap:', 'background: #ffcc00; color: #003300', popup_wrap)
 }
