@@ -133,7 +133,7 @@ const GetNavigation = prod => {
 
 
 const GetImg = prod => {
-    let img = GetValue(prod, ['iaiext:icons', 'iaiext:auction_icon'], 'url');
+    let img = GetValue(prod, ['icons', 'auction_icon'], 'url');
     if (img == null) {
         img = GetValue(prod, ['images', 'large'], 'url');
     }
@@ -295,7 +295,7 @@ const finalize = () => {
             if (index >= products.length) {
                 clearInterval(interval);
                 ready = true;
-                xmlResult += '  </channel>\n</rss>'
+                xmlResult += '  </channel>\n</rss>';
                 return;
             }
             prod = products[index];
@@ -306,9 +306,9 @@ const finalize = () => {
             let availability_size = GetAvailable(prod);
 
             if (visible && availability && availability_size) {
-                num++
+                num++;
             } else {
-                return
+                return;
             }
 
             let newItem = {
@@ -333,9 +333,9 @@ const finalize = () => {
                 adwords_grouping: AddHolders(GetValue(prod, ['category'], 'name'))
             }
 
-            let code_producer = (GetValue(prod, ['iaiext:sizes', 'iaiext:size'], 'code_producer'));
+            let code_producer = (GetValue(prod, ['sizes', 'size'], 'code_producer'));
             if (code_producer) {
-                if (prod.getAttribute('iaiext:producer_code_standard') == 'OTHER') {
+                if (prod.getAttribute('producer_code_standard') == 'OTHER') {
                     newItem.mpn = AddHolders(code_producer);
                 } else {
                     newItem.gtin = AddHolders(code_producer);
@@ -352,8 +352,6 @@ const finalize = () => {
 
     let intervalEnd = setInterval(() => {
         if (ready) {
-
-
             clearInterval(intervalEnd)
             button.innerHTML = 'Dodano ' + num + ' produktow !!!';
 
