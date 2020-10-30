@@ -1,4 +1,3 @@
-
 const testItems = [
     // google name, list name, sum
     ['g:id', 'id', true],
@@ -44,8 +43,8 @@ const CountItems = (list, item) => {
     if (NullCheck(item.condition)) list.condition++;
     if (NullCheck(item.availability)) list.availability++;
     if (NullCheck(item.price)) list.price++;
-    if (item.gtin) list.gtin++;
-    if (item.mpn) list.mpn++;
+    list.gtin += item.gtin.length;
+    list.mpn += item.mpn.length;
     if (NullCheck(item.brand)) list.brand++;
     if (NullCheck(item.size)) list.size++;
     if (NullCheck(item.item_group_id)) list.item_group_id++;
@@ -53,8 +52,6 @@ const CountItems = (list, item) => {
     if (NullCheck(item.shipping_weight)) list.shipping_weight++;
     if (NullCheck(item.adwords_grouping)) list.adwords_grouping++;
 }
-
-
 
 const ShowTest = (list, allNum = 0) => {
     let popup_wrap = document.querySelector('.popup_wrap');

@@ -232,12 +232,38 @@ const GetWeight = prod => {
     return AddHolders(res)
 }
 
+const GetCodes = (prod, size_all) => {
+    let sizes = GetElements(prod, ['sizes', 'size'])
+
+    let list = [];
+    let index = 10;
+
+    for (let i = 0; i < sizes.length; i++) {
+        if (index == 1) break;
+
+        let s = sizes[i];
+        let code = s.getAttribute('code_producer');
+
+        if (!code) continue;
+
+        if (!size_all) {
+            let available = s.getAttribute('available') != 'unavailable';
+            if (!available) continue;
+        }
+        list.push(code);
+        index--;
+    }
+
+    return list
+}
+
+
 var xmlResult = '';
 const AddTooXml = item => {
     xmlResult += `      <item>
-        <g:id>`+ item.id + `</g:id>
-        <title>`+ item.title + `</title>
-        <description>`+ item.description + `</description>\n`;
+        <g:id>` + item.id + `</g:id>
+        <title>` + item.title + `</title>
+        <description>` + item.description + `</description>\n`;
 
     if (item.google_product_category) xmlResult += `        <g:google_product_category>` + item.google_product_category + `</g:google_product_category>\n`;
 
@@ -246,31 +272,31 @@ const AddTooXml = item => {
     }
 
     xmlResult += `        <link>` + item.link + `</link>
-        <g:display_ads_link>`+ item.display_ads_link + `</g:display_ads_link>\n`;
+        <g:display_ads_link>` + item.display_ads_link + `</g:display_ads_link>\n`;
 
 
     if (item.image_link) xmlResult += `        <g:image_link>` + item.image_link + `</g:image_link>\n`
 
     xmlResult += `        <g:condition>` + item.condition + `</g:condition>
-        <g:availability>`+ item.availability + `</g:availability>
-        <g:price>`+ item.price + `</g:price>\n`;
+        <g:availability>` + item.availability + `</g:availability>
+        <g:price>` + item.price + `</g:price>\n`;
 
-    if (item.gtin) {
-        xmlResult += `        <g:gtin>` + item.gtin + `</g:gtin>\n`
+    for (let gtin of item.gtin) {
+        xmlResult += `        <g:gtin>` + gtin + `</g:gtin>\n`
     }
 
-    if (item.mpn) {
-        xmlResult += `        <g:mpn>` + item.mpn + `</g:mpn>\n`
+    for (let mpn of item.mpn) {
+        xmlResult += `        <g:mpn>` + mpn + `</g:mpn>\n`
     }
 
     xmlResult += `        <g:brand>` + item.brand + `</g:brand>
-        <g:size>`+ item.size + `</g:size>
-        <g:item_group_id>`+ item.item_group_id + `</g:item_group_id>
+        <g:size>` + item.size + `</g:size>
+        <g:item_group_id>` + item.item_group_id + `</g:item_group_id>
         <g:shipping>
-          <g:price>`+ item.shipping_price + `</g:price>
+          <g:price>` + item.shipping_price + `</g:price>
         </g:shipping>
-        <g:shipping_weight>`+ item.shipping_weight + `</g:shipping_weight>
-        <adwords_grouping>`+ item.adwords_grouping + `</adwords_grouping>
+        <g:shipping_weight>` + item.shipping_weight + `</g:shipping_weight>
+        <adwords_grouping>` + item.adwords_grouping + `</adwords_grouping>
       </item>\n`;
 }
 
@@ -289,69 +315,72 @@ const finalize = () => {
     let itemsNum = StartTesting();
 
     setTimeout(() => {
-        products = xmlStr.getElementsByTagName("product");
-        num = 0;
+            products = xmlStr.getElementsByTagName("product");
+            num = 0;
 
-        index = 0;
-        ready = false;
+            index = 0;
+            ready = false;
 
-        interval = setInterval(() => {
-            if (index >= products.length) {
-                clearInterval(interval);
-                ready = true;
-                xmlResult += '  </channel>\n</rss>';
-                return;
-            }
-            prod = products[index];
-            index++;
+            interval = setInterval(() => {
+                    if (index >= products.length) {
+                        clearInterval(interval);
+                        ready = true;
+                        xmlResult += '  </channel>\n</rss>';
+                        return;
+                    }
+                    prod = products[index];
+                    index++;
 
-            let visible = GetValue(prod, ['iaiext:visibility', 'iaiext:site'], 'visible') == 'yes';
-            let availability = GetValue(prod, ['iaiext:availability', 'iaiext:site'], 'value') == 'yes';
-            let availability_size = GetAvailable(prod);
+                    let visible = GetValue(prod, ['iaiext:visibility', 'iaiext:site'], 'visible') == 'yes';
+                    let availability = GetValue(prod, ['iaiext:availability', 'iaiext:site'], 'value') == 'yes';
+                    let availability_size = GetAvailable(prod);
 
-            if (visible && availability && availability_size) {
-                num++;
-            } else {
-                return;
-            }
+                    if (visible && availability && availability_size) {
+                        num++;
+                    } else {
+                        return;
+                    }
 
-            let newItem = {
-                id: AddHolders(GetValue(prod, ['sizes', 'size'], 'code')),
-                title: GetInner(prod, ['description', 'name']),
-                description: GetDescription(prod),
-                google_product_category: Get_google_product_category(prod),
-                product_type: GetNavigation(prod),
-                link: AddHolders(GetValue(prod, ['card'], 'url')),
-                display_ads_link: GetValue(prod, ['card'], 'url'),
-                image_link: GetImg(prod),
-                condition: '<![CDATA[' + condition + ']]>',
-                availability: availability_size,
-                price: GetPrice(prod),
-                gtin: null,
-                mpn: null,
-                brand: AddHolders(GetValue(prod, ['producer'], 'name')),
-                size: GetSizes(prod, size_all),
-                item_group_id: AddHolders(prod.getAttribute('id')),
-                shipping_price: '<![CDATA[' + shipping_price + ']]>',
-                shipping_weight: GetWeight(prod),
-                adwords_grouping: AddHolders(GetValue(prod, ['category'], 'name'))
-            }
+                    let newItem = {
+                        id: AddHolders(GetValue(prod, ['sizes', 'size'], 'code')),
+                        title: GetInner(prod, ['description', 'name']),
+                        description: GetDescription(prod),
+                        google_product_category: Get_google_product_category(prod),
+                        product_type: GetNavigation(prod),
+                        link: AddHolders(GetValue(prod, ['card'], 'url')),
+                        display_ads_link: GetValue(prod, ['card'], 'url'),
+                        image_link: GetImg(prod),
+                        condition: '<![CDATA[' + condition + ']]>',
+                        availability: availability_size,
+                        price: GetPrice(prod),
+                        gtin: [],
+                        mpn: [],
+                        brand: AddHolders(GetValue(prod, ['producer'], 'name')),
+                        size: GetSizes(prod, size_all),
+                        item_group_id: AddHolders(prod.getAttribute('id')),
+                        shipping_price: '<![CDATA[' + shipping_price + ']]>',
+                        shipping_weight: GetWeight(prod),
+                        adwords_grouping: AddHolders(GetValue(prod, ['category'], 'name'))
+                    }
 
-            let code_producer = (GetValue(prod, ['sizes', 'size'], 'code_producer'));
-            if (code_producer) {
-                if (prod.getAttribute('producer_code_standard') == 'OTHER') {
-                    newItem.mpn = AddHolders(code_producer);
-                } else {
-                    newItem.gtin = AddHolders(code_producer);
-                }
-            }
 
-            AddTooXml(newItem);
-            CountItems(itemsNum, newItem);
-            button.innerHTML = '' + (index) + ' z ' + products.length;
-        }, 0,
-            index, data, products, num, size_all, shipping_price, condition, ready, button, xmlResult, itemsNum);
-    }, 30,
+
+                    let code_producer = GetCodes(prod, size_all);
+                    let standart_code = prod.getAttribute('producer_code_standard') == 'OTHER';
+                    for (let code of code_producer) {
+                        if (standart_code) {
+                            newItem.mpn.push(AddHolders(code));
+                        } else {
+                            newItem.gtin.push(AddHolders(code));
+                        }
+                    }
+
+                    AddTooXml(newItem);
+                    CountItems(itemsNum, newItem);
+                    button.innerHTML = '' + (index) + ' z ' + products.length;
+                }, 0,
+                index, data, products, num, size_all, shipping_price, condition, ready, button, xmlResult, itemsNum);
+        }, 30,
         xmlResult, size_all, shipping_price, condition, button, products, num, index, ready, interval, itemsNum);
 
     let intervalEnd = setInterval(() => {
